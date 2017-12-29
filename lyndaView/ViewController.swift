@@ -10,17 +10,33 @@ import UIKit
 
 class ViewController: UIViewController, UITableViewDataSource {
     
-    let data:[String] = ["data1","data2","data3","data4"]
+    let data:[[String]] = [["data1","data2","data3","data4"],["dataA","dataB","dataC"]]
+    let subtitle:[[String]] = [["sub1","sub2","sub3","sub4"],["sub1","sub2","sub3"]]
+    let imagelist:[UIImage] = [UIImage(named : "user1")!,UIImage(named : "user3")!]
+    let titles:[String] = ["Number","Letters"]
+    let color:[UIColor] = [.red,.blue]
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count//number of cell we want
+        return data[section].count//number of particular section
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return data.count
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return titles[section]//for header titles
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //let cell = UITableViewCell()  //its not optimize technique
        
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = data[indexPath.row]
+        cell.textLabel?.text = data[indexPath.section][indexPath.row]//for cell name
+        cell.detailTextLabel?.text = subtitle[indexPath.section][indexPath.row]//for subtitle
+        cell.imageView?.image = imagelist[indexPath.section]//.withRenderingMode(UIImageRenderingMode.alwaysTemplate)//set imageview here insted of in main.stroyboard
+       // cell.imageView?.tintColor = color[indexPath.section]//different color of imageview
         return cell
     }
     
