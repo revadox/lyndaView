@@ -8,12 +8,13 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     let data:[[String]] = [["data1","data2","data3","data4"],["dataA","dataB","dataC"]]
     let subtitle:[[String]] = [["sub1","sub2","sub3","sub4"],["sub1","sub2","sub3"]]
     let imagelist:[UIImage] = [UIImage(named : "user1")!,UIImage(named : "user3")!]
     let titles:[String] = ["Number","Letters"]
+    let customtext:[[String]] = [["customtext1","customtext2","customtext3","customtext4"],["customtextA","customtextB","customtextC",]]
     let color:[UIColor] = [.red,.blue]
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -32,7 +33,8 @@ class ViewController: UIViewController, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //let cell = UITableViewCell()  //its not optimize technique
        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomCell
+        cell.label.text = customtext[indexPath.section][indexPath.row]//custom lable of custom cell check CustomCell file
         cell.textLabel?.text = data[indexPath.section][indexPath.row]//for cell name
         cell.detailTextLabel?.text = subtitle[indexPath.section][indexPath.row]//for subtitle
         cell.imageView?.image = imagelist[indexPath.section]//.withRenderingMode(UIImageRenderingMode.alwaysTemplate)//set imageview here insted of in main.stroyboard
@@ -40,6 +42,9 @@ class ViewController: UIViewController, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("\(data[indexPath.section][indexPath.row])")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
